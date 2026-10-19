@@ -27,7 +27,15 @@ export async function editRecord(kind, original = null, defaults = {}, after = (
     for (const f of spec.fields) {
         if(kind==='subjects'&&f.name==='units'){subjectPlan=subjectPlanEditor(original);grid.append(subjectPlan.el);}
         if(skipped(f))continue;
+        if(kind==='faculty'&&['faculty_id_number','email'].includes(f.name)){
+            const group=document.createElement('div');group.className='faculty-form-heading field-wide';
+            const heading=document.createElement('h3'),hint=document.createElement('p');
+            heading.textContent=f.name==='faculty_id_number'?'Faculty identification':'Contact and work details';
+            hint.textContent=f.name==='faculty_id_number'?'Faculty ID is optional. First and last names are required for new faculty.':'Add an email and assign the department or employment status as needed.';
+            group.append(heading,hint);grid.append(group);
+        }
         const wrap=document.createElement('div');wrap.className='field'+(['textarea','weekdays'].includes(f.type)?' field-wide':'');
+        if(kind==='faculty')wrap.classList.add('faculty-field-'+f.name);
         const id='field-'+serial+'-'+f.name, value=values[f.name]??f.default??'';
         if(kind==='sections'){
             wrap.classList.add('section-field-'+f.name);
@@ -80,8 +88,16 @@ export async function editRecord(kind, original = null, defaults = {}, after = (
                 input.value=f.type==='time'?clock(value):value;input.required=!!f.required;
                 if(kind==='faculty'&&['first_name','last_name'].includes(f.name))input.required=!original||!!original.first_name;
                 if(kind==='faculty'&&f.name==='email')input.type='email';
+                if(kind==='faculty'){
+                    const autocomplete={prefix:'honorific-prefix',first_name:'given-name',middle_name:'additional-name',last_name:'family-name',extension:'honorific-suffix',email:'email'};
+                    if(autocomplete[f.name])input.autocomplete=autocomplete[f.name];
+                    if(f.name==='faculty_id_number'){
+                        input.maxLength=50;input.placeholder='e.g., BCC-2026-001';input.autocomplete='off';
+                        input.setAttribute('aria-description','Optional school or employee identifier; letters, digits, and separators are accepted.');
+                    }
+                }
                 if(['number','integer'].includes(f.type)){input.min=f.min||0;if(f.max)input.max=f.max;input.step=f.type==='number'?'any':'1';}
-                if(f.type==='time')input.step='900';if(f.type==='text')input.maxLength=240;
+                if(f.type==='time')input.step='900';if(f.type==='text'&&f.name!=='faculty_id_number')input.maxLength=240;
 if(f.type==='textarea')input.maxLength=2000;
                 wrap.append(input);controls[f.name]={getValue:()=>f.type==='time'?parseClock(input.value):['integer','number'].includes(f.type)?Number(input.value):input.value};
             }

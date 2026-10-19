@@ -251,6 +251,14 @@ func (a *App) saveRecord(w http.ResponseWriter, r *http.Request, update bool) {
 			}
 		}
 		if kind == "faculty" {
+			facultyNumber := domain.Str(saved, "faculty_id_number")
+			if facultyNumber != "" {
+				for _, member := range s.Faculty {
+					if member.ID != id && strings.EqualFold(member.FacultyIDNumber, facultyNumber) {
+						return errors.New("faculty ID number is already assigned to another faculty member")
+					}
+				}
+			}
 			employment := domain.Str(saved, "employment")
 			oldEmployment := domain.Str(old, "employment")
 			if employment != oldEmployment || !update {

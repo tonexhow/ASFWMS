@@ -23,3 +23,25 @@ func TestNormalizeDefaultsAndIndependentAdviser(t *testing.T) {
 		t.Fatal(out, e)
 	}
 }
+
+func TestFacultyIDNumberOptionalAndPreservesLegacyName(t *testing.T) {
+	created, err := Normalize("faculty", map[string]any{"first_name": "Mae", "last_name": "Santos", "faculty_id_number": "  BCC-0007  "}, nil)
+	if err != nil || Str(created, "name") != "Mae Santos" || Str(created, "faculty_id_number") != "BCC-0007" {
+		t.Fatalf("invalid faculty ID create: %v / %v", created, err)
+	}
+	legacy := map[string]any{"name": "Dr. Existing Unsplit Teacher", "faculty_id_number": "", "employment": "Full Time"}
+	modified, err := Normalize("faculty", map[string]any{"faculty_id_number": "000812"}, legacy)
+	if err != nil || Str(modified, "name") != "Dr. Existing Unsplit Teacher" || Str(modified, "faculty_id_number") != "000812" {
+		t.Fatalf("legacy name changed on ID edit: %v / %v", modified, err)
+	}
+	noID, err := Normalize("faculty", map[string]any{"name": "Legacy row"}, nil)
+	if err != nil || Str(noID, "faculty_id_number") != "" {
+		t.Fatalf("optional field required: %v / %v", noID, err)
+	}
+	if _, err = Normalize("faculty", map[string]any{"name": "Too long", "faculty_id_number": string(make([]byte, 51))}, nil); err == nil {
+		t.Fatal("faculty ID length was not checked")
+	}
+	if _, err = Normalize("faculty", map[string]any{"name": "Bad", "faculty_id_number": "alpha\nbeta"}, nil); err == nil {
+		t.Fatal("control characters accepted in identifier")
+	}
+}

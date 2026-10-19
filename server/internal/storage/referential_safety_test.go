@@ -192,7 +192,7 @@ func TestMigrationFourToFivePreservesRowsAndTriggers(t *testing.T) {
 	}
 	defer upgraded.Close()
 	var v, subjects, sections int
-	if err = upgraded.DB.QueryRow("SELECT max(number) FROM schema_migrations").Scan(&v); err != nil || v != 9 {
+	if err = upgraded.DB.QueryRow("SELECT max(number) FROM schema_migrations").Scan(&v); err != nil || v != 10 {
 		t.Fatalf("expected v9, got %d %v", v, err)
 	}
 	_ = upgraded.DB.QueryRow("SELECT COUNT(*) FROM subjects").Scan(&subjects)

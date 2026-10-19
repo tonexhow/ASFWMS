@@ -98,6 +98,7 @@ type Faculty struct {
 	ID                 int    `json:"id"`
 	DepartmentID       int    `json:"department_id"`
 	Name               string `json:"name"`
+	FacultyIDNumber    string `json:"faculty_id_number"`
 	Prefix             string `json:"prefix"`
 	FirstName          string `json:"first_name"`
 	MiddleName         string `json:"middle_name"`

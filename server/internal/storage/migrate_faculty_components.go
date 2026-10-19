@@ -101,7 +101,7 @@ func migrateFacultyComponents(db *sql.DB) (err error) {
 // Earlier upgrades rebuild tables from schema.sql. Keep their old column shape
 // until v9 runs, avoiding duplicate ADD COLUMN statements and missing FK tables.
 func legacyV8DDL(ddl string) string {
-	for _, col := range []string{"prefix", "first_name", "middle_name", "last_name", "extension", "email"} {
+	for _, col := range []string{"faculty_id_number", "prefix", "first_name", "middle_name", "last_name", "extension", "email"} {
 		ddl = strings.ReplaceAll(ddl, col+" TEXT NOT NULL DEFAULT '', ", "")
 	}
 	ddl = strings.ReplaceAll(ddl, "component_id INTEGER REFERENCES subject_components(id), ", "")

@@ -3114,3 +3114,22 @@ details>.field {
 .schedule-mail-recip strong{font-size:13px}
 @media(max-width:960px){.timetable-dialog .modal-body{padding:0 10px 15px}.timetable-modal-toolbar{align-items:stretch}.timetable-toolbar-actions{justify-content:flex-start}.timetable-school-title strong{font-size:15px}}
 @media(max-width:640px){.modal.timetable-dialog{width:calc(100vw - 10px);max-height:98dvh;height:98dvh}.timetable-dialog .modal-header{padding:11px 14px}.timetable-modal-toolbar{top:0;display:grid;gap:9px}.timetable-toolbar-actions{display:grid;justify-content:stretch;grid-template-columns:1fr}.timetable-template-field{width:100%;max-width:none}.timetable-template-field .select-button{width:100%}.timetable-toolbar-buttons{width:100%}.timetable-toolbar-buttons .button{flex:1 1 auto}.schedule-mail-recip{grid-template-columns:1fr;gap:3px}}
+
+/* Faculty Add/Edit: readable identity fields in a deliberate order. */
+.faculty-editor .faculty-name-grid { grid-template-columns:minmax(0,1fr); gap:18px 20px; }
+.faculty-editor .faculty-name-grid > .field { min-width:0; }
+.faculty-editor .faculty-name-grid .faculty-form-heading { border-bottom:1px solid var(--border); padding:6px 0 11px; margin:5px 0 1px; }
+.faculty-form-heading h3 { margin:0 0 4px; font-size:15px; font-weight:700; color:var(--ink); }
+.faculty-form-heading p { margin:0; font-size:12px; line-height:1.5; color:var(--muted); }
+.faculty-editor .faculty-field-faculty_id_number input { font-variant-numeric:tabular-nums; }
+.faculty-editor .faculty-name-grid :is(input,textarea,.dropdown,.select-button) { min-width:0; max-width:100%; box-sizing:border-box; }
+@media(min-width:650px) {
+  .faculty-editor .faculty-name-grid { grid-template-columns:repeat(12,minmax(0,1fr)); }
+  .faculty-editor .faculty-name-grid > .field:not(.field-wide) { grid-column:span 6; }
+  .faculty-editor .faculty-name-grid > .faculty-field-faculty_id_number { grid-column:span 6; }
+  .faculty-editor .faculty-name-grid > .faculty-field-prefix { grid-column:span 3; }
+  .faculty-editor .faculty-name-grid > .faculty-field-first_name { grid-column:span 5; }
+  .faculty-editor .faculty-name-grid > .faculty-field-middle_name { grid-column:span 4; }
+  .faculty-editor .faculty-name-grid > .faculty-field-last_name { grid-column:span 7; }
+  .faculty-editor .faculty-name-grid > .faculty-field-extension { grid-column:span 5; }
+}

@@ -10,6 +10,8 @@ import (
 
 func fixtureBeforeV9(ddl string) string {
 	ddl = legacyV8DDL(ddl)
+	ddl = strings.Replace(ddl, "INSERT INTO schema_migrations(number) VALUES(9),(10);", "", 1)
+	ddl = strings.Replace(ddl, "CREATE UNIQUE INDEX faculty_id_number_unique ON faculty(faculty_id_number COLLATE NOCASE) WHERE faculty_id_number <> '';", "", 1)
 	ddl = strings.Replace(ddl, "INSERT INTO schema_migrations(number) VALUES(9);", "", 1)
 	for _, table := range []string{"subject_components", "subject_facility_requests", "generation_waits"} {
 		ddl = regexp.MustCompile(`(?s)CREATE TABLE `+table+` \(.*?\n\);\n`).ReplaceAllString(ddl, "")
@@ -57,7 +59,7 @@ func TestV9MigrationPreservesIDsNamesAndWorkingHours(t *testing.T) {
 		query string
 		want  int
 	}{
-		{"SELECT max(number) FROM schema_migrations", 9}, {"SELECT size FROM sections WHERE id=9", 50}, {"SELECT size FROM sections WHERE id=10", 40},
+		{"SELECT max(number) FROM schema_migrations", 10}, {"SELECT size FROM sections WHERE id=9", 50}, {"SELECT size FROM sections WHERE id=10", 40},
 		{"SELECT capacity FROM rooms WHERE id=11", 50}, {"SELECT capacity FROM rooms WHERE id=12", 40}, {"SELECT first_start_minute FROM faculty_preferences WHERE faculty_id=8", 0},
 		{"SELECT start_minute FROM faculty_work_times WHERE faculty_id=8", 540}, {"SELECT count(*) FROM subject_components WHERE subject_id=7 AND kind='laboratory' AND units=3 AND weekly_minutes=180", 1},
 	} {

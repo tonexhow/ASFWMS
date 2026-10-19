@@ -63,14 +63,14 @@ func Open(path, schema string) (*Store, error) {
 		}
 	} else {
 		var v int
-		if err = db.QueryRow("SELECT max(number) FROM schema_migrations").Scan(&v); err != nil || (v < 1 || v > 9) {
+		if err = db.QueryRow("SELECT max(number) FROM schema_migrations").Scan(&v); err != nil || (v < 1 || v > 10) {
 			return fail(errors.New("unrecognized database schema; no data changed; use a matching build and keep a backup"))
 		}
 		var dataset string
 		if err = db.QueryRow("SELECT value FROM app_meta WHERE key='dataset'").Scan(&dataset); err != nil {
 			return fail(err)
 		}
-		if v < 9 || dataset == "Anonymized reference dataset" {
+		if v < 10 || dataset == "Anonymized reference dataset" {
 			if err = backupBeforeUpgrade(db, path); err != nil {
 				return fail(fmt.Errorf("pre-update backup failed: %w", err))
 			}
@@ -113,6 +113,11 @@ func Open(path, schema string) (*Store, error) {
 		if v < 9 {
 			if err = migrateFacultyComponents(db); err != nil {
 				return fail(fmt.Errorf("faculty/components upgrade failed: %w", err))
+			}
+		}
+		if v < 10 {
+			if err = migrateFacultyID(db); err != nil {
+				return fail(fmt.Errorf("faculty ID schema upgrade failed: %w", err))
 			}
 		}
 		if dataset == "Anonymized reference dataset" {

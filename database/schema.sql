@@ -3,7 +3,7 @@
 PRAGMA foreign_keys = ON;
 CREATE TABLE schema_migrations (number INTEGER PRIMARY KEY, applied_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
 INSERT INTO schema_migrations(number) VALUES (1),(2),(3),(4),(5),(6),(7),(8);
-INSERT INTO schema_migrations(number) VALUES(9);
+INSERT INTO schema_migrations(number) VALUES(9),(10);
 CREATE TABLE app_meta (key TEXT PRIMARY KEY, value TEXT NOT NULL);
 INSERT INTO app_meta VALUES ('revision','0'),('dataset','empty');
 CREATE TABLE departments (
@@ -51,13 +51,15 @@ CREATE TABLE curriculum_subject_years (
 );
 CREATE TABLE faculty (
  id INTEGER PRIMARY KEY, department_id INTEGER REFERENCES departments(id) ON DELETE SET NULL,
- name TEXT NOT NULL, prefix TEXT NOT NULL DEFAULT '', first_name TEXT NOT NULL DEFAULT '', middle_name TEXT NOT NULL DEFAULT '', last_name TEXT NOT NULL DEFAULT '', extension TEXT NOT NULL DEFAULT '', email TEXT NOT NULL DEFAULT '', employment TEXT NOT NULL DEFAULT '', consideration TEXT NOT NULL DEFAULT '',
+ name TEXT NOT NULL, faculty_id_number TEXT NOT NULL DEFAULT '', prefix TEXT NOT NULL DEFAULT '', first_name TEXT NOT NULL DEFAULT '', middle_name TEXT NOT NULL DEFAULT '', last_name TEXT NOT NULL DEFAULT '', extension TEXT NOT NULL DEFAULT '', email TEXT NOT NULL DEFAULT '', employment TEXT NOT NULL DEFAULT '', consideration TEXT NOT NULL DEFAULT '',
  priority_scheduling INTEGER NOT NULL DEFAULT 0 CHECK(priority_scheduling IN(0,1)),
  section_policy TEXT NOT NULL DEFAULT 'priority' CHECK(section_policy IN('priority','exclusive')),
  source_faculty_id INTEGER UNIQUE,
  max_weekly_minutes INTEGER NOT NULL DEFAULT 0 CHECK(max_weekly_minutes BETWEEN 0 AND 5040),
  active INTEGER NOT NULL DEFAULT 1 CHECK(active IN(0,1))
 );
+-- Blank faculty ID numbers are allowed; populated values must be unique.
+CREATE UNIQUE INDEX faculty_id_number_unique ON faculty(faculty_id_number COLLATE NOCASE) WHERE faculty_id_number <> '';
 CREATE TABLE sections (
  id INTEGER PRIMARY KEY, program_id INTEGER REFERENCES programs(id) ON DELETE SET NULL,
  curriculum_id INTEGER REFERENCES curricula(id) ON DELETE SET NULL,

@@ -62,6 +62,32 @@ func TestFacultyStructuredNamesOptionalEmailAndLegacyPreservation(t *testing.T) 
 	}
 	h.call("POST", "/api/faculty/1/preferences", map[string]any{"preferred_room_id": 999}, nil, 409)
 }
+func TestFacultyIDNumberCreateEditDuplicateAndLegacyName(t *testing.T) {
+	h := newHarness(t)
+	h.fixture()
+	_, body := h.call("POST", "/api/records/faculty", map[string]any{
+		"faculty_id_number": "  000347 ", "prefix": "Engr.", "first_name": "Jo", "middle_name": "A.",
+		"last_name": "Lim", "extension": "III", "department_id": 1,
+	}, nil, 200)
+	if !bytes.Contains(body, []byte(`"faculty_id_number":"000347"`)) || !bytes.Contains(body, []byte("Engr. Jo A. Lim III")) {
+		t.Fatalf("faculty ID or name lost: %s", body)
+	}
+	h.call("POST", "/api/records/faculty", map[string]any{"name": "Missing ID"}, nil, 200)
+	h.call("POST", "/api/records/faculty", map[string]any{"name": "Duplicate", "faculty_id_number": "000347"}, nil, 409)
+	h.call("PUT", "/api/records/faculty/1", map[string]any{"faculty_id_number": "TEACH-001"}, nil, 200)
+	h.call("PUT", "/api/records/faculty/2", map[string]any{"faculty_id_number": "teach-001"}, nil, 409)
+	var oldName, id string
+	if err := h.store.DB.QueryRow("SELECT name,faculty_id_number FROM faculty WHERE id=1").Scan(&oldName, &id); err != nil {
+		t.Fatal(err)
+	}
+	if oldName != "Instructor One" || id != "TEACH-001" {
+		t.Fatalf("legacy name or ID changed: %q %q", oldName, id)
+	}
+	h.call("PUT", "/api/records/faculty/1", map[string]any{"faculty_id_number": ""}, nil, 200)
+	h.call("PUT", "/api/records/faculty/2", map[string]any{"faculty_id_number": "00000042"}, nil, 200)
+	h.call("GET", "/api/bootstrap", nil, nil, 200)
+}
+
 func TestFacultySectionsSavePolicyAndAllChoicesAtomically(t *testing.T) {
 	h := newHarness(t)
 	h.fixture()

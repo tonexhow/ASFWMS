@@ -57,7 +57,7 @@ func TestMigrationFiveToSixPreservesIndependentRows(t *testing.T) {
 	defer upgraded.Close()
 	var v, year, subjects, links int
 	var semester string
-	if err = upgraded.DB.QueryRow("SELECT max(number) FROM schema_migrations").Scan(&v); err != nil || v != 9 {
+	if err = upgraded.DB.QueryRow("SELECT max(number) FROM schema_migrations").Scan(&v); err != nil || v != 10 {
 		t.Fatalf("migration version %d %v", v, err)
 	}
 	if err = upgraded.DB.QueryRow("SELECT year_level,semester FROM curricula WHERE id=1").Scan(&year, &semester); err != nil || year != 0 || semester != "" {
