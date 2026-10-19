@@ -1,0 +1,58 @@
+# Private deployment configuration and real academic database. Never commit these.
+.env
+.env.*
+!.env.example
+database/*.db
+database/*.db-*
+database/*.sqlite*
+database/seed.sql
+# Historical migration and manual backups.
+database/backups/
+logs/*
+!logs/.gitkeep
+# Built binaries and release packages.
+dist/
+systems/windows/*
+!systems/windows/.gitkeep
+systems/macos/*
+!systems/macos/.gitkeep
+systems/linux/*
+!systems/linux/.gitkeep
+*.exe
+*.log
+*.tmp
+*.zip
+# Local tool/environment caches
+.DS_Store
+.vscode/
+.idea/
+
+# ASFWMS private/runtime exclusions
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.log
+*.pem
+*.key
+*.p12
+*.pfx
+
+dist/
+logs/
+backups/
+**/backups/
+**/logs/
+
+*.exe
+*.pid
+*.tmp
+.DS_Store
+Thumbs.db

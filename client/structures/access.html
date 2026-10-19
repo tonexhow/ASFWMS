@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <meta content="#f2f6fd" name="theme-color"/>
+  <meta content="light dark" name="color-scheme"/>
+  <title>
+   ASFWMS | Workspace access
+  </title>
+  <link href="/assets/bcc-seal.png" rel="icon"/>
+  <script src="/scripts/theme-init.js"></script>
+  <link href="/styles/app.css" rel="stylesheet"/>
+  <script src="/scripts/theme.js" type="module"></script>
+  <script src="/scripts/access.js" type="module">
+  </script>
+ </head>
+ <body class="access-page">
+  <main class="access-layout">
+   <section class="access-story">
+    <a class="brand" href="/">
+     <img alt="Buenavista Community College seal" height="62" src="/assets/bcc-seal.png" width="62"/>
+     <span>
+      ASFWMS
+      <small>
+       Buenavista Community College
+      </small>
+     </span>
+    </a>
+    <div class="story-copy">
+     <span class="eyebrow light">
+      A BETTER WAY TO PLAN
+     </span>
+     <h1>
+      Make room
+      <br/>
+      for learning.
+     </h1>
+     <p>
+      Connect academic requirements, teaching responsibilities, and available spaces in one focused scheduling workspace.
+     </p>
+     <div class="story-steps">
+      <div>
+       <span>
+        01
+       </span>
+       Organize your academic data
+      </div>
+      <div>
+       <span>
+        02
+       </span>
+       Assign instructors with intention
+      </div>
+      <div>
+       <span>
+        03
+       </span>
+       Preview, review, then commit
+      </div>
+     </div>
+    </div>
+    <p class="story-footer">
+     Local-first · Department-led · Conflict-aware
+    </p>
+   </section>
+   <section class="access-form-panel">
+    <div class="access-form-wrap">
+     <div class="access-theme-row"><button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch appearance" aria-pressed="false"></button></div>
+     <span class="pill subtle">
+      <span class="status-dot">
+      </span>
+      YOUR LOCAL WORKSPACE
+     </span>
+     <h2 id="access-title">
+      Opening workspace
+     </h2>
+     <p class="muted" id="access-description">
+      Checking account setup...
+     </p>
+     <div aria-label="Loading" class="skeleton-stack" id="access-loading">
+      <div class="skeleton line">
+      </div>
+      <div class="skeleton field">
+      </div>
+      <div class="skeleton field">
+      </div>
+     </div>
+     <form hidden="" id="access-form">
+      <div class="field">
+       <label for="username">
+        Username
+       </label>
+       <input autocomplete="username" id="username" maxlength="50" minlength="3" name="username" placeholder="Your username" required=""/>
+      </div>
+      <div class="field">
+       <label for="password">
+        Password
+       </label>
+       <input autocomplete="current-password" id="password" maxlength="128" name="password" placeholder="Enter your password" required="" type="password"/>
+      </div>
+      <div class="field" hidden="" id="repeat-field">
+       <label for="repeat">
+        Confirm password
+       </label>
+       <input autocomplete="new-password" id="repeat" maxlength="128" name="repeat" type="password"/>
+      </div>
+      <p class="form-error" hidden="" id="access-error" role="alert">
+      </p>
+      <button class="button primary full-width" id="access-submit" type="submit">
+       Continue
+      </button>
+     </form>
+     <div class="access-footnote">
+      <strong>
+       Not connected to the live school system.
+      </strong>
+      <p>
+       This application uses its own SQLite database on this computer. Production accounts and passwords have not been imported.
+      </p>
+      <a href="/guide" rel="noopener" target="_blank">
+       Read the setup and testing guide ↗
+      </a>
+     </div>
+    </div>
+   </section>
+  </main>
+  <div aria-live="polite" class="toast-region" id="toast-region">
+  </div>
+ </body>
+</html>

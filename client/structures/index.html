@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <meta content="#f2f6fd" name="theme-color"/>
+  <meta content="light dark" name="color-scheme"/>
+  <title>
+   ASFWMS | Scheduling workspace
+  </title>
+  <link href="/assets/bcc-seal.png" rel="icon" type="image/png"/>
+  <script src="/scripts/theme-init.js"></script>
+  <link href="/styles/app.css" rel="stylesheet"/>
+  <script src="/scripts/theme.js" type="module"></script>
+  <script src="/scripts/app.js" type="module">
+  </script>
+ </head>
+ <body>
+  <a class="skip-link" href="#workspace">
+   Skip to workspace
+  </a>
+  <div class="startup" id="startup" role="status">
+   <img alt="Buenavista Community College seal" height="70" src="/assets/bcc-seal.png" width="70"/>
+   <h1>
+    ASFWMS
+   </h1>
+   <span class="spinner">
+   </span>
+   <p>
+    Opening your scheduling workspace...
+   </p>
+  </div>
+  <div class="shell" hidden="" id="shell">
+   <aside aria-label="Main navigation" class="sidebar" id="sidebar">
+    <a class="brand" href="#overview">
+     <img alt="Buenavista Community College seal" height="55" src="/assets/bcc-seal.png" width="55"/>
+     <span>
+      ASFWMS
+      <small>
+       Buenavista Community College
+      </small>
+     </span>
+    </a>
+    <div class="sidebar-label">
+     WORKSPACE
+    </div>
+    <nav id="navigation">
+    </nav>
+    <div class="sidebar-bottom">
+     <div class="local-card">
+      <span class="status-dot">
+      </span>
+      <div>
+       <strong>
+        Self-hosted workspace
+       </strong>
+       <small>
+        SQLite · ASFWMS server
+       </small>
+      </div>
+     </div>
+     <a class="nav-link" href="/guide" id="guide-link" rel="noopener" target="_blank">
+      User guide &amp; delivery notes
+      <span aria-hidden="true">
+       ↗
+      </span>
+     </a>
+     <p class="sidebar-caption">
+      Thoughtful planning.
+      <br/>
+      Conflict-free commitments.
+     </p>
+    </div>
+   </aside>
+   <div class="sidebar-scrim" hidden="" id="sidebar-scrim">
+   </div>
+   <div class="main-column">
+    <header class="topbar">
+     <div class="row">
+      <button aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation" class="icon-button mobile-only" id="menu-toggle">
+      </button>
+      <div class="breadcrumbs">
+       Workspace
+       <span>
+        /
+       </span>
+       <strong id="breadcrumb">
+        Overview
+       </strong>
+      </div>
+     </div>
+     <div class="row">
+      <span class="pill subtle desktop-only">
+       <span class="status-dot">
+       </span>
+       Authenticated workspace
+      </span>
+      <button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch appearance" aria-pressed="false"></button>
+      <button aria-label="Refresh workspace" class="icon-button" data-tip="Refresh data" id="refresh">
+      </button>
+      <button aria-label="Account and workspace settings" class="account-button" id="account">
+       <span class="avatar">
+        A
+       </span>
+       <span id="account-name">
+        Admin
+       </span>
+      </button>
+     </div>
+    </header>
+    <main id="workspace" tabindex="-1">
+    </main>
+    <footer class="workspace-footer">
+     <span>
+      ASFWMS · Academic Scheduling &amp; Faculty Workload
+     </span>
+     <span id="revision-label">
+     </span>
+    </footer>
+   </div>
+  </div>
+  <div aria-atomic="false" aria-live="polite" class="toast-region" id="toast-region">
+  </div>
+ </body>
+</html>
